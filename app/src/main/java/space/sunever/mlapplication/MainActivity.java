@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flurgle.camerakit.CameraListener;
 import com.flurgle.camerakit.CameraView;
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
                 Bitmap bitmap = BitmapFactory.decodeByteArray(picture, 0, picture.length);
                 bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false);
+                if (android.os.Build.VERSION.SDK_INT > 22) {
+                    bitmap = rotateBitmap(bitmap, ROTATE_ALPHA);
+                }
                 imageViewResult.setImageBitmap(bitmap);
                 final List<Classifier.Recognition> results = classifier.recognizeImage(bitmap);
                 textViewResult.setText(results.toString());
